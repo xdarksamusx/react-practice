@@ -1,0 +1,58 @@
+import React from "react";
+import "./styles.css";
+
+ const OrderedLists = props => (
+   <ol> 
+     {props.options.map((option, index) => <li key={index}>  <button onClick={() =>  props.handleClick(option.id)}>click me</button> {option.isClicked  && (<ul>  {  option.items.map(item => <li key={item}>{item} </li>)}</ul>)} </li>)}
+   
+     
+   </ol>
+
+ )
+
+class App extends React.Component {
+
+  state = {
+    options: [
+      { id: 1, items: ["wow", "cool", "amazing", "wonderful"], isClicked :true },
+      { id: 2, items: ["sucks", "bad", "crap", "miserable"] , isClicked : true },
+      { id: 3, items: ["normal", "neutral", "nothing", "zero"], isClicked : false }
+    ]
+  
+  };
+ 
+  handleClick = (id) => {
+
+    this.setState( prevState => {
+
+      const updatedOptions = prevState.options.map(option => {
+        if(option.id === id) {
+          return {...option, isClicked:!option.isClicked}
+        }
+        return option;
+      })
+      console.log(updatedOptions)
+
+      return {options:updatedOptions}
+     
+    })
+   
+    
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <OrderedLists 
+        id ={this.state.options.id}
+        isClicked={this.state.options.isClicked}
+        options={this.state.options}
+        handleClick = {this.handleClick}
+        />
+         
+      </div>
+    );
+  }
+}
+
+export default App;
